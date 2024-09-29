@@ -26,28 +26,28 @@ Todos os dados são transmitidos para o Node-RED em formato JSON, facilitando a 
 
 ## Arquitetura do Sistema
 
-# Visão Geral da Arquitetura
+### Visão Geral da Arquitetura
 O sistema proposto é simples e baseado em duas partes principais:
 
-# Dispositivo IoT (Arduino):
+### Dispositivo IoT (Arduino):
 
 Arduino Uno: Controla a coleta de dados dos sensores e envia os dados para o Node-RED via comunicação serial.
 Sensores:
 DHT11: Mede a temperatura do motor.
 MPU6050: Fornece dados de aceleração ao longo do eixo X, utilizados para calcular a velocidade.
 
-# Node-RED:
+### Node-RED:
 Node-RED será utilizado para processar os dados recebidos do Arduino e exibi-los em um painel. Node-RED se comunica com o Arduino via conexão serial, e os dados são manipulados e organizados em um painel gráfico.
 
 ## Recursos Necessários
 
-# Dispositivos IoT (Hardware)
+### Dispositivos IoT (Hardware)
 Arduino Uno: Microcontrolador que captura e processa os dados dos sensores.
 Sensor DHT11: Mede a temperatura do motor.
 Sensor MPU6050: Coleta os dados de aceleração no eixo X.
 Cabo USB: Para conectar o Arduino ao computador para comunicação serial com o Node-RED.
 
-# Software
+### Software
 Node-RED: Ferramenta visual para conectar dispositivos e criar fluxos de dados. O Node-RED será utilizado para receber os dados do Arduino e exibi-los.
 Arduino IDE: Para programar o Arduino e carregar o código necessário.
 Bibliotecas Arduino:
@@ -57,16 +57,16 @@ ArduinoJson (para formatar os dados como JSON)
 
 ## Fluxo de Dados
 
-# Coleta de Dados (Arduino Uno):
+### Coleta de Dados (Arduino Uno):
 O Arduino lê os valores do sensor DHT11 (temperatura) e do MPU6050 (aceleração no eixo X).
 Com base na aceleração, o Arduino calcula a velocidade do carro, garantindo que a velocidade não ultrapasse 322 km/h e que não fique negativa.
 Os dados são formatados em JSON e enviados para o Node-RED via conexão serial.
 
-# Processamento de Dados (Node-RED):
+### Processamento de Dados (Node-RED):
 O Node-RED recebe os dados via comunicação serial, processa as informações e organiza os dados de telemetria.
 O painel do Node-RED exibe as leituras de temperatura, aceleração e velocidade em tempo real.
 
-# Visualização (Dashboard Node-RED):
+### Visualização (Dashboard Node-RED):
 Um painel gráfico exibe a telemetria, incluindo gráficos de aceleração e velocidade ao longo do tempo, além de indicadores para a temperatura do motor.
 
 
