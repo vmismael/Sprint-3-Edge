@@ -2,11 +2,11 @@
 
 ## 🗒️ integrantes
 
-Danilo Wendler - RM556602 
-Renato Luiz - RM556403
-Pedro Muzel - RM555983
-Vitor Ismael RM-556027
-Guilherme Cezarino RM-557724
+Danilo Wendler - RM556602 <br>
+Renato Luiz - RM556403 <br>
+Pedro Muzel - RM555983 <br>
+Vitor Ismael RM-556027 <br>
+Guilherme Cezarino RM-557724 <br>
 
 ## Descrição
 - O projeto em desenvolvimento foi solicitado na disciplina de Edge Computing, pelo curso de Engenharia de Software - FIAP.
