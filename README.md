@@ -18,60 +18,57 @@ Este projeto simula um sistema de telemetria em tempo real para um carro de Fór
 Todos os dados são transmitidos para o Node-RED em formato JSON, facilitando a interface com serviços de back-end e front-end para monitoramento e análise em tempo real. Isso permite que os usuários visualizem e analisem os dados em tempo real, otimizando o acompanhamento do desempenho do veículo de Fórmula E.
 
 ## Funcionalidades
-```
-- Monitoramento da Temperatura do Motor: Utilizando o sensor DHT11 para medir a temperatura do motor.
-- Monitoramento da Aceleração Longitudinal: Utilizando o acelerômetro MPU6050 para medir a aceleração no eixo X.
-- Cálculo da Velocidade: A velocidade é calculada com base nos dados de aceleração, com um limite máximo de 322 km/h e sem permitir velocidades negativas.
-- Telemetria em Tempo Real: Os dados de telemetria (temperatura, aceleração e velocidade) são enviados via comunicação serial, formatados em um objeto JSON.
-```
+
+- Monitoramento da Temperatura do Motor: Utilizando o sensor DHT11 para medir a temperatura do motor.<br>
+- Monitoramento da Aceleração Longitudinal: Utilizando o acelerômetro MPU6050 para medir a aceleração no eixo X.<br>
+- Cálculo da Velocidade: A velocidade é calculada com base nos dados de aceleração, com um limite máximo de 322 km/h e sem permitir velocidades negativas.<br>
+- Telemetria em Tempo Real: Os dados de telemetria (temperatura, aceleração e velocidade) são enviados via comunicação serial, formatados em um objeto JSON.<br>
+
 ## Arquitetura do Sistema
 
 ### Visão Geral da Arquitetura
 O sistema proposto é simples e baseado em duas partes principais:
 
 ### Dispositivo IoT (Arduino):
+Arduino Uno: Controla a coleta de dados dos sensores e envia os dados para o Node-RED via comunicação serial.<br>
 
-Arduino Uno: Controla a coleta de dados dos sensores e envia os dados para o Node-RED via comunicação serial.
 ### Sensores:
-```
-DHT11: Mede a temperatura do motor. 
-MPU6050: Fornece dados de aceleração ao longo do eixo X, utilizados para calcular a velocidade.
-```
+DHT11: Mede a temperatura do motor. <br>
+MPU6050: Fornece dados de aceleração ao longo do eixo X, utilizados para calcular a velocidade.<br>
+
 ### Node-RED:
 Node-RED será utilizado para processar os dados recebidos do Arduino e exibi-los em um painel. Node-RED se comunica com o Arduino via conexão serial, e os dados são manipulados e organizados em um painel gráfico.
 
 ## Recursos Necessários
 
 ### Dispositivos IoT (Hardware)
-```
-Arduino Uno: Microcontrolador que captura e processa os dados dos sensores.
-Sensor DHT11: Mede a temperatura do motor.
-Sensor MPU6050: Coleta os dados de aceleração no eixo X.
-Cabo USB: Para conectar o Arduino ao computador para comunicação serial com o Node-RED.
-```
+Arduino Uno: Microcontrolador que captura e processa os dados dos sensores.<br>
+Sensor DHT11: Mede a temperatura do motor.<br>
+Sensor MPU6050: Coleta os dados de aceleração no eixo X.<br>
+Cabo USB: Para conectar o Arduino ao computador para comunicação serial com o Node-RED.<br>
 
 ### Software
-```
-Node-RED: Ferramenta visual para conectar dispositivos e criar fluxos de dados. O Node-RED será utilizado para receber os dados do Arduino e exibi-los.
-Arduino IDE: Para programar o Arduino e carregar o código necessário.
-Bibliotecas Arduino:
-DHT (para o sensor DHT11)
-MPU6050_light (para o sensor MPU6050)
-ArduinoJson (para formatar os dados como JSON)
-```
+Node-RED: Ferramenta visual para conectar dispositivos e criar fluxos de dados. O Node-RED será utilizado para receber os dados do Arduino e exibi-los.<br>
+Arduino IDE: Para programar o Arduino e carregar o código necessário.<br>
+
+### Bibliotecas Arduino:
+DHT (para o sensor DHT11)<br>
+MPU6050_light (para o sensor MPU6050)<br>
+ArduinoJson (para formatar os dados como JSON)<br>
+
 ## Fluxo de Dados
 
 ### Coleta de Dados (Arduino Uno):
-```
-O Arduino lê os valores do sensor DHT11 (temperatura) e do MPU6050 (aceleração no eixo X).
-Com base na aceleração, o Arduino calcula a velocidade do carro, garantindo que a velocidade não ultrapasse 322 km/h e que não fique negativa.
-Os dados são formatados em JSON e enviados para o Node-RED via conexão serial.
-```
+
+O Arduino lê os valores do sensor DHT11 (temperatura) e do MPU6050 (aceleração no eixo X).<br>
+Com base na aceleração, o Arduino calcula a velocidade do carro, garantindo que a velocidade não ultrapasse 322 km/h e que não fique negativa.<br>
+Os dados são formatados em JSON e enviados para o Node-RED via conexão serial.<br>
+
 ### Processamento de Dados (Node-RED):
-```
-O Node-RED recebe os dados via comunicação serial, processa as informações e organiza os dados de telemetria.
-O painel do Node-RED exibe as leituras de temperatura, aceleração e velocidade em tempo real.
-```
+
+O Node-RED recebe os dados via comunicação serial, processa as informações e organiza os dados de telemetria.<br>
+O painel do Node-RED exibe as leituras de temperatura, aceleração e velocidade em tempo real.<br>
+
 ### Visualização (Dashboard Node-RED):
 Um painel gráfico exibe a telemetria, incluindo gráficos de aceleração e velocidade ao longo do tempo, além de indicadores para a temperatura do motor.
 
