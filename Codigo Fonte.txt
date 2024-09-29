@@ -1,0 +1,67 @@
+#include <ArduinoJson.h>
+#include <DHT.h>
+#include <Wire.h>
+#include <MPU6050_light.h>
+
+#define DHTPIN 7
+#define DHTTYPE DHT11
+
+MPU6050 mpu(Wire); 
+const int pinPotenciometro = A0;
+DHT dht(DHTPIN, DHT11);
+
+float velocidade = 0;
+unsigned long tempoAnterior = 0; 
+const float VELOCIDADE_MAXIMA_KMH = 322.0;
+
+void setup() {
+
+  dht.begin();
+  Wire.begin();
+  mpu.begin();                   
+  mpu.calcOffsets();           
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  StaticJsonDocument<200> json;
+
+  float temp = dht.readTemperature();
+
+  int valorPotenciometro = analogRead(pinPotenciometro);
+  float nivelBateria = map(valorPotenciometro, 0, 1023, 0, 100);
+
+  mpu.update();
+
+  float ax = mpu.getAccX() * 9.81; 
+
+  float aceleracaoMedia = ax;
+
+  unsigned long tempoAtual = millis();
+  float deltaTempo = (tempoAtual - tempoAnterior) / 1000.0; 
+
+  velocidade += aceleracaoMedia * deltaTempo; // m/s
+
+  if (velocidade < 0) {
+    velocidade = 0; 
+  }
+
+  float velocidadeKmh = velocidade * 3.6; 
+
+  if (velocidadeKmh > VELOCIDADE_MAXIMA_KMH) {
+    velocidadeKmh = VELOCIDADE_MAXIMA_KMH; 
+    velocidade = velocidadeKmh / 3.6; 
+  }
+
+  tempoAnterior = tempoAtual;
+
+  json["Temperatura do Motor"] = temp;
+  json["Nivel de Bateria"] = nivelBateria;
+  json["Aceleracao Media (m/s²)"] = aceleracaoMedia;
+  json["Velocidade (km/h)"] = velocidadeKmh;
+
+  serializeJson(json, Serial);
+  Serial.println(); 
+  delay(3000);
+}
