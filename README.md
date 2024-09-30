@@ -9,7 +9,7 @@ Vitor Ismael RM-556027 <br>
 Guilherme Cezarino RM-557724 <br>
 
 ## Descrição
-- O projeto em desenvolvimento foi solicitado na disciplina de Edge Computing, pelo curso de Engenharia de Software - FIAP.
+- O projeto em desenvolvimento foi solicitado na disciplina de Edge Computing, pelo curso de Engenharia de Software - FIAP.<br>
 link do projeto no Wokwi: https://wokwi.com/projects/410468304224276481
 ## Visão Geral do Projeto
 
