@@ -1,67 +1,106 @@
+#include <WiFi.h>
+#include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <DHT.h>
 #include <Wire.h>
 #include <MPU6050_light.h>
 
-#define DHTPIN 7
+#define DHTPIN 4
 #define DHTTYPE DHT11
 
-MPU6050 mpu(Wire); 
-const int pinPotenciometro = A0;
+MPU6050 mpu(Wire);  
+const int pinPotenciometro = 34;
 DHT dht(DHTPIN, DHT11);
-
-float velocidade = 0;
-unsigned long tempoAnterior = 0; 
+float velocidade = 0; 
+unsigned long tempoAnterior = 0;
 const float VELOCIDADE_MAXIMA_KMH = 322.0;
 
-void setup() {
+const char* ssid = "Wokwi-GUEST"; 
+const char* password = ""; 
 
+const char* mqtt_server = "test.mosquitto.org";  
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+void setup() {
+  Serial.begin(9600);
+  
+  setup_wifi();
+
+  client.setServer(mqtt_server, 1883);
+ 
   dht.begin();
   Wire.begin();
-  mpu.begin();                   
-  mpu.calcOffsets();           
-  Serial.begin(9600);
+  mpu.begin();
+  mpu.calcOffsets(); 
+
+  reconnect();
+}
+
+void setup_wifi() {
+  delay(10);
+  Serial.println();
+  Serial.print("Conectando ao Wi-Fi ");
+  Serial.println(ssid);
+  
+  WiFi.begin(ssid, password);
+  
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  
+  Serial.println("");
+  Serial.println("WiFi conectado");
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.print("Tentando conectar ao MQTT...");
+    if (client.connect("ArduinoClient")) {  
+      Serial.println("conectado");
+    } else {
+      Serial.print("falha, rc=");
+      Serial.print(client.state());
+      Serial.println(" tentando novamente em 5 segundos");
+      delay(5000);
+    }
+  }
 }
 
 void loop() {
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
 
   StaticJsonDocument<200> json;
-
   float temp = dht.readTemperature();
-
   int valorPotenciometro = analogRead(pinPotenciometro);
-  float nivelBateria = map(valorPotenciometro, 0, 1023, 0, 100);
-
+  float nivelBateria = map(valorPotenciometro, 0, 4095, 0, 100);
   mpu.update();
-
   float ax = mpu.getAccX() * 9.81; 
-
-  float aceleracaoMedia = ax;
-
   unsigned long tempoAtual = millis();
   float deltaTempo = (tempoAtual - tempoAnterior) / 1000.0; 
-
-  velocidade += aceleracaoMedia * deltaTempo; // m/s
-
-  if (velocidade < 0) {
-    velocidade = 0; 
-  }
-
-  float velocidadeKmh = velocidade * 3.6; 
-
+  velocidade += ax * deltaTempo;
+  if (velocidade < 0) velocidade = 0;
+  float velocidadeKmh = velocidade * 3.6;
   if (velocidadeKmh > VELOCIDADE_MAXIMA_KMH) {
-    velocidadeKmh = VELOCIDADE_MAXIMA_KMH; 
-    velocidade = velocidadeKmh / 3.6; 
+    velocidadeKmh = VELOCIDADE_MAXIMA_KMH;
+    velocidade = velocidadeKmh / 3.6;
   }
-
   tempoAnterior = tempoAtual;
 
-  json["Temperatura do Motor"] = temp;
-  json["Nivel de Bateria"] = nivelBateria;
-  json["Aceleracao Media (m/s²)"] = aceleracaoMedia;
-  json["Velocidade (km/h)"] = velocidadeKmh;
+  json["Temperatura"] = temp;
+  json["Bateria"] = nivelBateria;
+  json["Aceleracao"] = ax;
+  json["Velocidade"] = velocidadeKmh;
 
-  serializeJson(json, Serial);
-  Serial.println(); 
+  char buffer[256];
+  size_t n = serializeJson(json, buffer);
+  
+
+  client.publish("formulae/dados", buffer, n); 
   delay(3000);
 }
