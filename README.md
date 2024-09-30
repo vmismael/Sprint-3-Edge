@@ -10,7 +10,7 @@ Guilherme Cezarino RM-557724 <br>
 
 ## Descrição
 - O projeto em desenvolvimento foi solicitado na disciplina de Edge Computing, pelo curso de Engenharia de Software - FIAP.
-
+link do projeto no Wokwi: https://wokwi.com/projects/410468304224276481
 ## Visão Geral do Projeto
 
 Este projeto simula um sistema de telemetria em tempo real para um carro de Fórmula E utilizando tecnologias de IoT (Internet das Coisas). A solução é baseada na plataforma Arduino Uno e integra um sensor de temperatura DHT22 e um acelerômetro/giroscópio MPU6050 para monitorar a temperatura do motor e a aceleração longitudinal do carro em tempo real. O sistema calcula a velocidade do carro, impõe limites de velocidade (simulando restrições do mundo real) e garante que a velocidade não se torne negativa. Os dados são enviados no formato JSON, facilitando a interface com serviços de back-end e front-end para monitoramento e análise em tempo real.
