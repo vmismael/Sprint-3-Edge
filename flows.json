@@ -1,0 +1,58 @@
+[
+    {
+        "id": "511e22cab8c53750",
+        "type": "mqtt in",
+        "z": "2f163eb0ea56ab9d",
+        "name": "",
+        "topic": "formulae/dados",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "1b898a89b611181c",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 360,
+        "wires": [
+            [
+                "bb9164f055ce3365",
+                "f98b858abe199172",
+                "0959bde1af8b508d",
+                "fc13a3ffa260d990",
+                "fc46c29eed25002b"
+            ]
+        ]
+    },
+    {
+        "id": "1b898a89b611181c",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
